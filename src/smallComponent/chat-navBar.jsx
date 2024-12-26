@@ -11,12 +11,13 @@ import { FaEllipsisV } from "react-icons/fa";
 import { useThemeContext } from "../context/ThemeContext";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
+import { db } from "../context/instaDB";
 
 // eslint-disable-next-line react/prop-types
 function ChatNavBar({ sx }) {
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const { toggleTheme, mode } = useThemeContext();
+  const { toggleTheme, mode, receiverId } = useThemeContext();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,6 +35,24 @@ function ChatNavBar({ sx }) {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
+  console.log('receiverId------->', receiverId)
+
+
+  const query = {
+    userLogin: {
+      $: {
+        where: {
+          id: receiverId,
+        },
+      },
+      user: {},
+    },
+  };
+  const { data } = db.useQuery(query);
+
+  const userEmail = data?.userLogin?.[0]?.email
+  console.log('data------->', userEmail)
 
   return (
     <Box
@@ -83,7 +102,7 @@ function ChatNavBar({ sx }) {
               textAlign: "center",
             }}
           >
-            {localStorage.getItem('loggedInUser')?.charAt(0).toUpperCase()}
+            {userEmail?.charAt(0).toUpperCase()}
           </Typography>
           <CardContent>
             <Typography
@@ -94,7 +113,7 @@ function ChatNavBar({ sx }) {
               textOverflow="ellipsis"
               maxWidth="200px"
             >
-              {localStorage.getItem('loggedInUser')}
+              {userEmail}
             </Typography>
           </CardContent>
         </Box>

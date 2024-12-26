@@ -18,8 +18,8 @@ export const CustomThemeProvider = ({ children }) => {
     return savedMode ? JSON.parse(savedMode) : "light";
   });
 
-  const [senderId, setSenderId] = useState('123')
-const [receiverId, setReceiverId] = useState('456')
+  const [senderId, setSenderId] = useState('')
+const [receiverId, setReceiverId] = useState('')
 
   // Create theme based on the current mode
   const theme = useMemo(
