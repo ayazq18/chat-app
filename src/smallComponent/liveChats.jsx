@@ -6,19 +6,27 @@ import { useThemeContext } from "../context/ThemeContext";
 import EmptyContent from "../reUsabel/empty-content";
 
 function LiveChats({ sx }) {
-  const { senderId, receiverId } = useThemeContext();
-  console.log(senderId, receiverId);
-  if (!senderId || !receiverId) {
-    return <div>Sender or Receiver ID is missing.</div>;
+  const { senderId } = useThemeContext();
+  if (!senderId) {
+    return (
+      <Box sx={{ width: "100%", height: "100%", ...sx }}>
+        <EmptyContent
+          title="No Chats!"
+          imgUrl="/assets/icons/ic_folder_empty.svg"
+        />
+      </Box>
+    );
   }
 
   // const query = {
   //   messages: {
-  //     filter: {
-  //       senderId: senderId,
-  //       receiverId: receiverId
-  //     }
-  //   }
+  //     $: {
+  //       where: {
+  //         id: '08b5390f-c2d2-45a2-80a8-a3b10ba16ce6',
+  //       },
+  //     },
+  //     messages: {},
+  //   },
   // };
 
   const { isLoading, error, data } = db.useQuery({ messages: {} });
@@ -40,18 +48,18 @@ function LiveChats({ sx }) {
         "&::-webkit-scrollbar": {
           display: "none",
         },
-        bgcolor:'#efeae2',
+        bgcolor: "#efeae2",
         ...sx,
       }}
     >
-      {sortedMessages ? (
+      {sortedMessages.length > 0 ? (
         sortedMessages?.map((message, index) => (
           <Stack
             key={index}
             spacing={2}
             direction="column"
             justifyContent="space-between"
-            sx={{ mb: 2, mt: 2, }}
+            sx={{ mb: 2, mt: 2 }}
           >
             <Box display="flex" justifyContent="flex-end">
               <Box
@@ -60,7 +68,8 @@ function LiveChats({ sx }) {
                   p: 1,
                   bgcolor: !message.text.endsWith(".png") && "#DCF8C6",
                   maxWidth: "75%",
-                  borderRadius: !message.text.endsWith(".png") && "10px 0 10px 10px",
+                  borderRadius:
+                    !message.text.endsWith(".png") && "10px 0 10px 10px",
                 }}
               >
                 <Typography variant="body1" color="#000000">
@@ -97,7 +106,7 @@ function LiveChats({ sx }) {
         <Box sx={{ width: "100%", height: "100%", ...sx }}>
           <EmptyContent
             title="No Chats!"
-            imgUrl="/assets/icons/empty/ic_folder_empty.svg"
+            imgUrl="/assets/icons/ic_folder_empty.svg"
           />
         </Box>
       )}

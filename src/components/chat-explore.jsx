@@ -13,7 +13,6 @@ function ChatExplore({ sx }) {
   const [adjustWidth, setAdjustWidth] = useState("100vw");
   const [value, setValue] = useState("");
 
-//   const { addMessage } = useContext(ThemeContext)
 
   useEffect(() => {
     const drawerClose = localStorage.getItem("drawerClose");

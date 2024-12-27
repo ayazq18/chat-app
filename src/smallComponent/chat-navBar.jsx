@@ -36,9 +36,6 @@ function ChatNavBar({ sx }) {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  console.log('receiverId------->', receiverId)
-
-
   const query = {
     userLogin: {
       $: {
@@ -52,7 +49,6 @@ function ChatNavBar({ sx }) {
   const { data } = db.useQuery(query);
 
   const userEmail = data?.userLogin?.[0]?.email
-  console.log('data------->', userEmail)
 
   return (
     <Box
